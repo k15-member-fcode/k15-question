@@ -1,10 +1,10 @@
-import React from 'react';
-import './App.css';
-import QuestionForm from './components/QuestionForm';
+import React from "react";
+import Locale from "./utils/Locale";
+import "./App.css";
 function App() {
   return (
     <div className="App">
-    <QuestionForm/>
+      <Locale />
     </div>
   );
 }
