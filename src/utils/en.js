@@ -1,4 +1,5 @@
 var en = {
+  name: "en",
   titlePage: "K15 Question with F-Code",
   titleForm: "K15 Question Form",
   titleNote: "Notes:",
@@ -49,7 +50,7 @@ var en = {
     title: "Notification",
     content: "Language has been changed."
   },
-  footerContent: ["Created by F-Code", "FPT University"]
+  footerContent: ["Developed by ThinhTPT", "Mentored by MinhHY", "Copyright © 2019 F-Code HCM"]
 };
 
 export default en;

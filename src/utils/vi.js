@@ -1,4 +1,5 @@
 var vi = {
+  name: "vi",
   titlePage: "K15 Đặt Câu Hỏi cùng F-Code",
   titleForm: "Biểu Mẫu Đặt Câu Hỏi K15",
   titleNote: "Chú ý:",
@@ -13,26 +14,26 @@ var vi = {
       id: 1,
       label: "Họ và tên",
       placeholder: "Nhập vào họ tên của bạn",
-      errMessage: ["Hãy nhập họ tên của bạn!",
+      errMessage: ["Vui lòng nhập họ tên của bạn!",
                     "Họ tên của bạn không hợp lệ!"]
     },
     {
       id: 2,
       label: "Mã số sinh viên",
       placeholder: "Nhập vào mã sinh viên của bạn",
-      errMessage: ["Hãy nhập mã sinh viên của bạn!",
+      errMessage: ["Vui lòng nhập mã sinh viên của bạn!",
                     "Mã sinh viên của bạn không hợp lệ!"]
     },
     {
       id: 3,
       label: "Câu hỏi của bạn",
       placeholder: "",
-      errMessage: "Hãy nhập câu hỏi của bạn!"
+      errMessage: "Vui lòng nhập câu hỏi của bạn!"
     },
     {
       id: 4,
       label: "Chuyên ngành của bạn",
-      errMessage: "Hãy chọn ngành học của bạn!"
+      errMessage: "Vui lòng chọn ngành học của bạn!"
     }
   ],
   submitBtn: "Gửi",
@@ -50,6 +51,6 @@ var vi = {
     title: "Thông báo",
     content: "Ngôn ngữ đã được thay đổi."
   },
-  footerContent: ["Tạo bởi câu lạc bộ F-Code", "Trường Đại học FPT"]
+  footerContent: ["Tạo bởi ThinhTPT", "Hướng dẫn bởi MinhHY", "Bản quyền © 2019 F-Code HCM"]
 };
 export default vi;
