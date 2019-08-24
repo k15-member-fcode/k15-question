@@ -1,7 +1,8 @@
 import React from "react";
-import Locale from "./utils/Locale";
+import Locale from "./Locale";
 import "./App.css";
-function App() {
+
+const App = () => {
   return (
     <div className="App">
       <Locale />
