@@ -14,31 +14,46 @@ const toTitleCase = (str) => {
   });
 }
 
-const writeQuestionToFirebase = (submitData, language) => {
-  var setName = toTitleCase(submitData.fullname);
-  var setStudentID = submitData.studentID.toUpperCase();
-  var setQuestion = submitData.question;
-  var setMajor = submitData.major;
-  var setDate = new Date();
-  var date = String(setDate.getDate()).padStart(2, "0");
-  var mon = String(setDate.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var year = setDate.getFullYear();
-  var hours = String(setDate.getHours()).padStart(2, "0");
-  var min = String(setDate.getMinutes()).padStart(2, "0");
-  setDate = hours + ":" + min + " - " + date + "/" + mon + "/" + year;
-  var ref = dataQuestion.ref("k15-questions");
-  var userRef = ref.child(setStudentID);
-  var cUserRef = ref.child("countUser");
-  var cQuesRef = ref.child("countQuestion");
+const processData = (submitData) => {
+  const fullname = toTitleCase(submitData.fullname);
+  const studentID = submitData.studentID.toUpperCase();
+  const question = submitData.question;
+  const major = submitData.major;
+  let date = new Date();
+  const day = String(date.getDate()).padStart(2, "0");
+  const mon = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, "0");
+  const min = String(date.getMinutes()).padStart(2, "0");
+  date = hours + ":" + min + " - " + day + "/" + mon + "/" + year;
+  return {
+    fullname,
+    studentID,
+    question,
+    major,
+    date
+  }
+}
+const writeQuestionToFirebase = (data, language) => {
+  const setName = toTitleCase(data.fullname);
+  const setStudentID = data.studentID;
+  const setQuestion = data.question;
+  const setMajor = data.major;
+  const setDate = data.date;
+
+  let ref = dataQuestion.ref("k15-questions");
+  let userRef = ref.child(setStudentID);
+  let cUserRef = ref.child("countUser");
+  let cQuesRef = ref.child("countQuestion");
   userRef.once("value", data => {
-    var curUserRef = ref.child(setStudentID);
+    let curUserRef = ref.child(setStudentID);
     if (data.val() != null) {
-      var totalTimes = data.val().totalTimes + 1;
+      let totalTimes = data.val().totalTimes + 1;
       curUserRef.update({
         timeUpdate: setDate,
         totalTimes: totalTimes
       });
-      var newQuestion = {};
+      let newQuestion = {};
       newQuestion[totalTimes] = setQuestion;
       curUserRef.child("question").update(newQuestion);
       createNotification(language.notiUpdate, 0);
@@ -54,16 +69,16 @@ const writeQuestionToFirebase = (submitData, language) => {
       });
       createNotification(language.notiCreate, 0);
       cUserRef.once("value", data => {
-        var count = data.val() + 1;
+        let totalOfUser = data.val();
         ref.update({
-          countUser: count
+          countUser: ++totalOfUser
         });
       });
     }
     cQuesRef.once("value", data => {
-      var count = data.val() + 1;
+      let totalOfQuestion = data.val();
       ref.update({
-        countQuestion: count
+        countQuestion: ++totalOfQuestion
       });
     });
   });
@@ -97,39 +112,56 @@ const tailFormItemLayout = {
 function QuestionForm(props) {
     const [language, setLanguage] = useState(props.language);
     const isError = useRef(false);
+    const isSubmit = useRef(false);
     const isFirstRun = useRef(true);
-    const isFirstSubmit = useRef(true);
     useEffect(() => {
       if (isFirstRun.current) {
         isFirstRun.current = false;
         return;
       }
       else {
-        setLanguage(language => props.language);
-      }
-    });
-    useEffect(() => {
-      if (isFirstSubmit.current) {
-        isFirstSubmit.current = false;
-        return;
-      }
-      else {
-        isError.current = false;
-        document.getElementsByTagName("button")[0].click();
-      }
-    }, [isError.current && language]);
-
+          if (language !== props.language) {
+              setLanguage(language => props.language);
+              console.log("changed");
+              if (isError.current) {
+                document.getElementsByTagName("button")[0].click();
+              }
+          }
+        }
+    }, [props]);
     const { getFieldDecorator } = props.form;
     const handleSubmit = (event) => {
       event.preventDefault();
+      isSubmit.current = true;
       props.form.validateFields({ force: true }, (err, values) => {
         if (!err) {
-          writeQuestionToFirebase(values, language);
+          isError.current = false;
+          const processedData = processData(values);
+          writeQuestionToFirebase(processedData, language);
         }
         else {
           isError.current = true;
         }
       });
+    };
+    const handleStudentId = (rule, value, callback) => {
+      let studentID = value;
+      if (isSubmit.current) {
+        if ((!/^[A-Za-z]{2}(0[1-9]|1[0-5])[0-1]{1}[0-9]{3}$/.test(studentID) || studentID.length !== 8)) {
+          if (studentID !== undefined){
+            if (studentID.length !== 0) {
+              callback(language.formList[1].errMessage[1])
+            }
+            else {
+              callback();
+            }
+          }
+        }
+        else {
+          isSubmit.current = false;
+        }
+      }
+      callback();
     };
     return (
       <div className="Form">
@@ -178,9 +210,7 @@ function QuestionForm(props) {
                   message: language.formList[1].errMessage[0]
                 },
                 {
-                  max: 8,
-                  pattern: "[A-Za-z]{2}(0[1-9]|1[0-5])[0-1]{1}[0-9]{3}",
-                  message: language.formList[1].errMessage[1]
+                  validator: handleStudentId
                 }
               ]
             })(
