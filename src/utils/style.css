@@ -5,26 +5,44 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow:hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.Form {
+  overflow:auto;
+  height: 80vh;
+
+}
+
+.Form::-webkit-scrollbar {
+	width: 10px;
+}
+
+.Form::-webkit-scrollbar-thumb {
+	background-color: #000000;
+}
+
 Form {
   width: 60%;
   margin: auto 10%!important;
-  min-height: 80vh;
 }
+
 .logo {
   width: 20%;
   margin-left: 40%;
 }
+
 .titleText {
   width: 100%;
   clear: both;
   text-align: center;
 }
+
 .formNotes {
   text-align: left;
   margin-left: 0%;
@@ -44,7 +62,7 @@ Form {
   width: 40%;
   margin: auto 30%;
   padding-top: 10px;
-  min-height: 10vh;
+  height: 10vh;
 }
 
 textarea {
@@ -56,13 +74,13 @@ Button {
   width: 20%;
   margin-bottom: 20px;
 }
+
 .Footer {
-  margin-top: -25px;
   width: 100%;
   color: #f4f4f4;
   background-color: #333333;
-  padding: 15px 5%;
-  min-height: 10vh;
+  padding: 10px;
+  height: 10vh;
   text-align: center;
 }
 
