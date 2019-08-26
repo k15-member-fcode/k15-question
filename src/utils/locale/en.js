@@ -5,16 +5,19 @@ export const en = {
   titleNote: "Notes:",
   noteList: [{
       id: 1,
-      content: "Respecting to members of F-Code"
+      content: "Using polite words"
     }, {
       id: 2,
       content: "Having clear content related to F-Code or programming majors at school"
     }, {
       id: 3,
-      content: "Using appropriate languages: English or accented Vietnamese"
+      content: "Appropriate languages: English or accented Vietnamese"
     }, {
       id: 4,
       content: "Being able to ask more than one question"
+    }, {
+      id: 5,
+      content: "Unlimited number of questions"
     },
   ],
   formList: [{

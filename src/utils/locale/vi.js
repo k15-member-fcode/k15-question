@@ -5,16 +5,20 @@ export const vi = {
   titleNote: "Chú ý:",
   noteList: [{
       id: 1,
-      content: "Tôn trọng các thành viên F-Code"
+      content: "Từ ngữ lịch sự"
     }, {
       id: 2,
       content: "Có nội dung rõ ràng và liên quan đến câu lạc bộ hoặc các ngành lập trình ở trường"
     }, {
       id: 3,
-      content: "Sử dụng ngôn ngữ cho phép: tiếng Anh hoặc tiếng Việt có dấu"
+      content: "Ngôn ngữ cho phép: tiếng Anh hoặc tiếng Việt có dấu"
     }, {
       id: 4,
       content: "Có thể hỏi nhiều hơn một câu hỏi"
+    },
+    {
+      id: 5,
+      content: "Không giới hạn số lần hỏi"
     },
   ],
   formList: [{
