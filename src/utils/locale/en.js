@@ -23,14 +23,14 @@ export const en = {
     placeholder: "Input your fullname",
     errMessage: [
       "Please input your fullname!",
-      "Invalid your fullname!"]
+      "Invalid your input fullname!"]
   }, {
     id: 2,
     label: "Student ID",
     placeholder: "Input your student ID",
     errMessage: [
       "Please input your student ID!",
-      "Invalid your student ID!"]
+      "Invalid your input student ID!"]
   }, {
     id: 3,
     label: "Your Question",

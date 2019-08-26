@@ -22,13 +22,13 @@ export const vi = {
     label: "Họ và tên",
     placeholder: "Nhập vào họ tên của bạn",
     errMessage: ["Vui lòng nhập họ tên của bạn!",
-      "Họ tên của bạn không hợp lệ!"]
+      "Họ tên bạn nhập không hợp lệ!"]
   }, {
     id: 2,
     label: "Mã số sinh viên",
     placeholder: "Nhập vào mã sinh viên của bạn",
     errMessage: ["Vui lòng nhập mã sinh viên của bạn!",
-      "Mã sinh viên của bạn không hợp lệ!"]
+      "Mã sinh viên bạn nhập không hợp lệ!"]
   }, {
     id: 3,
     label: "Câu hỏi của bạn",
