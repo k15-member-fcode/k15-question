@@ -26,11 +26,11 @@ export const en = {
     placeholder: "Input your fullname",
     errMessage: [
       "Please input your fullname!",
-      "Invalid your input fullname!"]
+      "Fullname must be characters in the alphabet!"]
   }, {
     id: 2,
     label: "Student ID",
-    placeholder: "Input your student ID",
+    placeholder: "15xxxx",
     errMessage: [
       "Please input your student ID!",
       "Student ID must have format: 15xxxx with x is number!"]

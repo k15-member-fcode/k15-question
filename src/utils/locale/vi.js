@@ -26,7 +26,7 @@ export const vi = {
     label: "Họ và tên",
     placeholder: "Nhập vào họ tên của bạn",
     errMessage: ["Vui lòng nhập họ tên của bạn!",
-      "Họ tên bạn nhập không hợp lệ!"]
+      "Họ tên phải là kí tự trong bảng chữ cái!"]
   }, {
     id: 2,
     label: "Mã số sinh viên",
