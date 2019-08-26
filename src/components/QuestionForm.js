@@ -11,7 +11,7 @@ const dataQuestion = firebase.database();
 
 const processData = (submitData) => {
   const fullname = toTitleCase(submitData.fullname);
-  const studentID = submitData.studentID.toUpperCase();
+  const studentID = 'SE' + submitData.studentID;
   const question = submitData.question;
   const major = submitData.major;
   let date = new Date();
@@ -144,7 +144,7 @@ function QuestionForm(props) {
     const handleStudentId = (rule, value, callback) => {
       let studentID = value;
       if (isSubmit.current) {
-        if ((!studentIdValidation.test(studentID) || studentID.length !== 8)) {
+        if ((!studentIdValidation.test(studentID) || studentID.length !== 6)) {
           if (studentID !== undefined) {
             studentID.length !== 0 ? callback(language.formList[1].errMessage[1]) : callback();
           }
@@ -207,6 +207,7 @@ function QuestionForm(props) {
               ]
             })(
               <Input
+                prefix="SE"
                 size="large"
                 placeholder={language.formList[1].placeholder}
                 autoComplete="off"

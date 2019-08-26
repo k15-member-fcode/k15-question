@@ -32,7 +32,7 @@ export const vi = {
     label: "Mã số sinh viên",
     placeholder: "Nhập vào mã sinh viên của bạn",
     errMessage: ["Vui lòng nhập mã sinh viên của bạn!",
-      "Mã sinh viên bạn nhập không hợp lệ!"]
+      "Mã sinh viên phải có dạng: 15xxxx với x là số!"]
   }, {
     id: 3,
     label: "Câu hỏi của bạn",

@@ -33,7 +33,7 @@ export const en = {
     placeholder: "Input your student ID",
     errMessage: [
       "Please input your student ID!",
-      "Invalid your input student ID!"]
+      "Student ID must have format: 15xxxx with x is number!"]
   }, {
     id: 3,
     label: "Your Question",
