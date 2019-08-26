@@ -34,6 +34,7 @@ const processData = (submitData) => {
     date
   }
 }
+
 const writeQuestionToFirebase = (data, language) => {
   const setName = toTitleCase(data.fullname);
   const setStudentID = data.studentID;
@@ -85,6 +86,7 @@ const writeQuestionToFirebase = (data, language) => {
 };
 
 const { TextArea } = Input;
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -120,15 +122,14 @@ function QuestionForm(props) {
         return;
       }
       else {
-          if (language !== props.language) {
-              setLanguage(language => props.language);
-              console.log("changed");
-              if (isError.current) {
-                document.getElementsByTagName("button")[0].click();
-              }
+          setLanguage(language => props.language);
+          console.log("changed");
+          if (isError.current) {
+            console.log("callback");
+            document.getElementsByTagName("button")[0].click();
           }
-        }
-    }, [props]);
+      }
+    }, [props.language]);
     const { getFieldDecorator } = props.form;
     const handleSubmit = (event) => {
       event.preventDefault();
