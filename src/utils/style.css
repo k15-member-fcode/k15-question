@@ -66,16 +66,6 @@ Button {
   text-align: center;
 }
 
-.footerAuthor, .footerFanpage {
-  display: inline-block;
-  width: 45%;
-  vertical-align: middle;
-}
-
-.footerAuthor {
-  line-height: 200%;
-}
-
 @media only screen and (max-width: 1024px) {
   Form {
     width: 80%;
@@ -93,10 +83,6 @@ Button {
   Button {
     width: 30%;
     margin-left: 35%;
-  }
-  .footerAuthor, .footerFanpage {
-    display: block;
-    width: 100%;
   }
 }
 @media only screen and (max-width: 575px) {
@@ -117,11 +103,5 @@ Button {
 @media only screen and (max-width: 360px) {
   .formNotes li {
     margin-left: 0px;
-  }
-  .Footer {
-    padding: auto 0px;
-  }
-  .Footer iframe {
-    width: 100%;
   }
 }
