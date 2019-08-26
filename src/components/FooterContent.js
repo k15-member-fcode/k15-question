@@ -8,7 +8,7 @@ function FooterContent(props) {
       <a
         href="https://www.facebook.com/fcodefpt/"
         target="_blank"
-        rel="link fanpage F-Code"
+        rel="noopener noreferrer"
       >
         <span> {props.footerContent[2]} </span>{" "}
       </a>
