@@ -1,2 +1,7 @@
 /node_modules
 /src/utils/configFirebase.js
+/.firebase
+.firebaserc
+database.rules.json
+firebase.json
+/build
