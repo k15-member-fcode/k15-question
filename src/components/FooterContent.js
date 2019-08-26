@@ -1,16 +1,19 @@
 import React from "react";
 
-// FooterContent
 function FooterContent(props) {
   return (
     <div className="Footer">
-        <span> {props.footerContent[0]} </span> <br />
-        <span> {props.footerContent[1]} </span> <br />
-        <a href="https://www.facebook.com/fcodefpt/" target="_blank" rel="link fanpage F-Code">
-          <span> {props.footerContent[2]} </span>{" "}
-        </a>
+      <span> {props.footerContent[0]} </span> <br />
+      <span> {props.footerContent[1]} </span> <br />
+      <a
+        href="https://www.facebook.com/fcodefpt/"
+        target="_blank"
+        rel="link fanpage F-Code"
+      >
+        <span> {props.footerContent[2]} </span>{" "}
+      </a>
     </div>
   );
 }
-// Export FooterContent
+
 export default FooterContent;

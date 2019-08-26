@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 code {
@@ -14,22 +14,21 @@ code {
 }
 
 .Form {
-  overflow:auto;
+  overflow: auto;
   height: 80vh;
-
 }
 
 .Form::-webkit-scrollbar {
-	width: 10px;
+  width: 10px;
 }
 
 .Form::-webkit-scrollbar-thumb {
-	background-color: #000000;
+  background-color: #000000;
 }
 
-Form {
+form {
   width: 60%;
-  margin: auto 10%!important;
+  margin: auto 10% !important;
 }
 
 .logo {
@@ -69,7 +68,7 @@ textarea {
   resize: none;
 }
 
-Button {
+button {
   margin-left: 40%;
   width: 20%;
   margin-bottom: 20px;
@@ -85,7 +84,7 @@ Button {
 }
 
 @media only screen and (max-width: 1024px) {
-  Form {
+  form {
     width: 80%;
     margin: auto -5% !important;
   }
@@ -94,26 +93,26 @@ Button {
   }
 }
 @media only screen and (max-width: 768px) {
-  Form {
+  form {
     width: 95%;
     margin: auto -10% !important;
   }
-  Button {
+  button {
     width: 30%;
     margin-left: 35%;
   }
 }
 @media only screen and (max-width: 575px) {
-  Form {
+  form {
     margin: auto 5% !important;
   }
 }
 @media only screen and (max-width: 480px) {
-  Form {
+  form {
     width: 99%;
     margin-left: 1% !important;
   }
-  Button {
+  button {
     width: 40%;
     margin-left: 30%;
   }
