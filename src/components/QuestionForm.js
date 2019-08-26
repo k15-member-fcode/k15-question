@@ -3,6 +3,7 @@ import firebase from "firebase";
 import { Form, Radio, Input, Button, Icon } from "antd";
 import logo from "../utils/logo.jpg";
 import { firebaseConfig } from "../utils/configFirebase";
+import { nameValidation, studentIdValidation } from "../utils/configValidation";
 import { createNotification } from "./Common/Notification";
 
 firebase.initializeApp(firebaseConfig);
@@ -149,7 +150,7 @@ function QuestionForm(props) {
     const handleStudentId = (rule, value, callback) => {
       let studentID = value;
       if (isSubmit.current) {
-        if ((!/^[A-Za-z]{2}(0[1-9]|1[0-5])[0-1]{1}[0-9]{3}$/.test(studentID) || studentID.length !== 8)) {
+        if ((!studentIdValidation.test(studentID) || studentID.length !== 8)) {
           if (studentID !== undefined) {
             studentID.length !== 0 ? callback(language.formList[1].errMessage[1]) : callback();
           }
@@ -184,7 +185,7 @@ function QuestionForm(props) {
                   message: language.formList[0].errMessage[0]
                 },
                 {
-                  pattern: "[A-Za-z]",
+                  pattern: nameValidation,
                   message: language.formList[0].errMessage[1]
                 }
               ]
