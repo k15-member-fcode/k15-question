@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import firebase from "firebase";
-import { Form, Radio, Input, Button, Icon, notification } from "antd";
-import "./QuestionForm.css";
-import logo from "../logo.jpg";
-import { en } from "../utils/locale/en";
-
+import { Form, Radio, Input, Button, Icon } from "antd";
+import logo from "../utils/logo.jpg";
+import { firebaseConfig } from "../utils/configFirebase";
+import { createNotification } from "./Common/Notification";
 
 firebase.initializeApp(firebaseConfig);
 const dataQuestion = firebase.database();
@@ -14,14 +13,12 @@ const toTitleCase = (str) => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
-const defaultLanguage = en;
 
-
-const writeQuestionToFirebase = (submitData) => {
-  var setName = toTitleCase(values.fullname);
-  var setStudentID = values.studentID.toUpperCase();
-  var setQuestion = values.question;
-  var setMajor = values.major;
+const writeQuestionToFirebase = (submitData, language) => {
+  var setName = toTitleCase(submitData.fullname);
+  var setStudentID = submitData.studentID.toUpperCase();
+  var setQuestion = submitData.question;
+  var setMajor = submitData.major;
   var setDate = new Date();
   var date = String(setDate.getDate()).padStart(2, "0");
   var mon = String(setDate.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -44,7 +41,7 @@ const writeQuestionToFirebase = (submitData) => {
       var newQuestion = {};
       newQuestion[totalTimes] = setQuestion;
       curUserRef.child("question").update(newQuestion);
-      this.notificationUpdate();
+      createNotification(language.notiUpdate, 0);
     } else {
       curUserRef.set({
         id: setStudentID,
@@ -55,7 +52,7 @@ const writeQuestionToFirebase = (submitData) => {
         timeUpdate: setDate,
         totalTimes: 1
       });
-      this.notificationCreate();
+      createNotification(language.notiCreate, 0);
       cUserRef.once("value", data => {
         var count = data.val() + 1;
         ref.update({
@@ -73,7 +70,6 @@ const writeQuestionToFirebase = (submitData) => {
 };
 
 const { TextArea } = Input;
-const { getFieldDecorator } = this.props.form;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -97,116 +93,120 @@ const tailFormItemLayout = {
     }
   }
 };
-const onClickChangeLanguage = () => {
-  var newLang = this.props.language.name;
-  if (newLang !== oldLang) {
-    oldLang = newLang;
-    if (document.querySelectorAll(".ant-form-explain").length !== 0) {
-      this.render();
-      document.querySelectorAll("button")[0].click();
-    }
-  }
-};
 
-class QuestionForm extends React.Component {
-  handleSubmit = (event) => {
-    e.preventDefault();
-    this.props.form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        this.saveQuestion(values);
+function QuestionForm(props) {
+      const [language, setLanguage] = useState(props.language);
+      const isError = useRef(false);
+    const isFirstRun = useRef(true);
+    const isFirstSubmit = useRef(true);
+    useEffect(() => {
+      if (isFirstRun.current) {
+        isFirstRun.current = false;
+        return;
+      }
+      else {
+        setLanguage(language => props.language);
       }
     });
-  };
+    useEffect(() => {
+      if (isFirstSubmit.current) {
+        isFirstSubmit.current = false;
+        return;
+      }
+      else {
+        isError.current = false;
+        document.getElementsByTagName("button")[0].click();
+      }
+    }, [isError.current && language]);
 
-  render() {
+    const { getFieldDecorator } = props.form;
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      props.form.validateFields({ force: true }, (err, values) => {
+        if (!err) {
+          writeQuestionToFirebase(values, language);
+        }
+        else {
+          isError.current = true;
+        }
+      });
+    };
     return (
       <div className="Form">
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} onSubmit={handleSubmit}>
           <Form.Item {...tailFormItemLayout}>
             <img alt="logo-fcode" className="logo" src={logo} />
             <div className="titleText">
-              <h1>{this.props.language.titleForm}</h1>
+              <h1>{language.titleForm}</h1>
               <ul className="formNotes">
-                {this.props.language.titleNote}
-                {/* <li>
-                  <Icon type="check" /> {this.props.language.noteList[0]}{" "}
-                </li>
-                <li>
-                  <Icon type="check" /> {this.props.language.noteList[1]}{" "}
-                </li>
-                <li>
-                  <Icon type="check" /> {this.props.language.noteList[2]}{" "}
-                </li>
-                <li>
-                  <Icon type="check" /> {this.props.language.noteList[3]}{" "}
-                </li> */}
-                {this.props.language.noteList.map(note => {
+                {language.titleNote}
+                {language.noteList.map(note => {
                   return (
-                    <li>
-                    <Icon type="check" /> {note}{" "}
+                    <li key={note.id}>
+                    <Icon type="check" /> {note.content}{" "}
                   </li>
                   );
                 })}
               </ul>
             </div>
           </Form.Item>
-          <Form.Item label={this.props.language.formList[0].label}>
+          <Form.Item label={language.formList[0].label}>
             {getFieldDecorator("fullname", {
               rules: [
                 {
                   required: true,
-                  message: this.props.language.formList[0].errMessage[0]
+                  message: language.formList[0].errMessage[0]
                 },
                 {
                   pattern: "[A-Za-z]",
-                  message: this.props.language.formList[0].errMessage[1]
+                  message: language.formList[0].errMessage[1]
                 }
               ]
             })(
               <Input
                 size="large"
-                placeholder={this.props.language.formList[0].placeholder}
+                placeholder={language.formList[0].placeholder}
                 autoComplete="off"
               />
             )}
           </Form.Item>
-          <Form.Item label={this.props.language.formList[1].label}>
+          <Form.Item label={language.formList[1].label}>
             {getFieldDecorator("studentID", {
               rules: [
                 {
                   required: true,
-                  message: this.props.language.formList[1].errMessage[0]
+                  message: language.formList[1].errMessage[0]
                 },
                 {
                   max: 8,
                   pattern: "[A-Za-z]{2}(0[1-9]|1[0-5])[0-1]{1}[0-9]{3}",
-                  message: this.props.language.formList[1].errMessage[1]
+                  message: language.formList[1].errMessage[1]
                 }
               ]
             })(
               <Input
                 size="large"
-                placeholder={this.props.language.formList[1].placeholder}
+                placeholder={language.formList[1].placeholder}
                 autoComplete="off"
               />
             )}
           </Form.Item>
-          <Form.Item label={this.props.language.formList[2].label}>
+          <Form.Item label={language.formList[2].label}>
             {getFieldDecorator("question", {
               rules: [
                 {
                   required: true,
-                  message: this.props.language.formList[2].errMessage
+                  message: language.formList[2].errMessage
                 }
               ]
             })(<TextArea rows={4} />)}
           </Form.Item>
-          <Form.Item label={this.props.language.formList[3].label}>
+          <Form.Item label={language.formList[3].label}>
             {getFieldDecorator("major", {
               rules: [
                 {
                   required: true,
-                  message: this.props.language.formList[3].errMessage
+                  message: language.formList[3].errMessage
                 }
               ],
               initialValue: "SE"
@@ -223,13 +223,12 @@ class QuestionForm extends React.Component {
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              {this.props.language.submitBtn}
+              {language.submitBtn}
             </Button>
           </Form.Item>
         </Form>
       </div>
     );
   }
-}
 
 export default Form.create()(QuestionForm);

@@ -3,11 +3,19 @@ export const vi = {
   titlePage: "K15 Đặt Câu Hỏi cùng F-Code",
   titleForm: "Biểu Mẫu Đặt Câu Hỏi K15",
   titleNote: "Chú ý:",
-  noteList: [
-    "Tôn trọng các thành viên F-Code",
-    "Có nội dung rõ ràng và liên quan đến câu lạc bộ hoặc các ngành lập trình ở trường",
-    "Sử dụng ngôn ngữ cho phép: tiếng Anh hoặc tiếng Việt có dấu",
-    "Có thể hỏi nhiều hơn một câu hỏi"
+  noteList: [{
+      id: 1,
+      content: "Tôn trọng các thành viên F-Code"
+    }, {
+      id: 2,
+      content: "Có nội dung rõ ràng và liên quan đến câu lạc bộ hoặc các ngành lập trình ở trường"
+    }, {
+      id: 3,
+      content: "Sử dụng ngôn ngữ cho phép: tiếng Anh hoặc tiếng Việt có dấu"
+    }, {
+      id: 4,
+      content: "Có thể hỏi nhiều hơn một câu hỏi"
+    },
   ],
   formList: [{
     id: 1,

@@ -3,11 +3,19 @@ export const en = {
   titlePage: "K15 Question with F-Code",
   titleForm: "K15 Question Form",
   titleNote: "Notes:",
-  noteList: [
-    "Respecting to members of F-Code",
-    "Having clear content related to F-Code or programming majors at school",
-    "Using appropriate languages: English or accented Vietnamese",
-    "Being able to ask more than one question"
+  noteList: [{
+      id: 1,
+      content: "Respecting to members of F-Code"
+    }, {
+      id: 2,
+      content: "Having clear content related to F-Code or programming majors at school"
+    }, {
+      id: 3,
+      content: "Using appropriate languages: English or accented Vietnamese"
+    }, {
+      id: 4,
+      content: "Being able to ask more than one question"
+    },
   ],
   formList: [{
     id: 1,
