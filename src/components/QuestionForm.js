@@ -95,8 +95,8 @@ const tailFormItemLayout = {
 };
 
 function QuestionForm(props) {
-      const [language, setLanguage] = useState(props.language);
-      const isError = useRef(false);
+    const [language, setLanguage] = useState(props.language);
+    const isError = useRef(false);
     const isFirstRun = useRef(true);
     const isFirstSubmit = useRef(true);
     useEffect(() => {
