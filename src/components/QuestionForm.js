@@ -158,6 +158,8 @@ function QuestionForm(props) {
       }
       callback();
     };
+
+    const majorList = ['SE', 'IA', 'IoT', 'AI'];
     return (
       <div className="Form">
         <Form {...formItemLayout} onSubmit={handleSubmit}>
@@ -237,12 +239,11 @@ function QuestionForm(props) {
               initialValue: "SE"
             })(
               <Radio.Group buttonStyle="outline">
-                <Radio.Button value="SE" defaultChecked>
-                  SE
-                </Radio.Button>
-                <Radio.Button value="IA">IA</Radio.Button>
-                <Radio.Button value="IoT">IoT</Radio.Button>
-                <Radio.Button value="AI">AI</Radio.Button>
+              {majorList.map((major, index) => {
+                return(
+                  <Radio.Button value={major}>{major}</Radio.Button>
+                )
+              })}
               </Radio.Group>
             )}
           </Form.Item>
