@@ -9,6 +9,7 @@ import FooterContent from "./FooterContent";
 function Locale() {
     const [language, setLanguage] = useState(en);
     const isFirstRun = useRef(true);
+
     useEffect(() => {
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -19,6 +20,7 @@ function Locale() {
         createNotification(language.notiLang, 3);
       }
     }, [language]);
+
     const changeLanguage = (newLanguage) => {
       newLanguage = newLanguage.target.value;
       if (newLanguage === vi && language === en) {
@@ -27,6 +29,7 @@ function Locale() {
         setLanguage(language => en);
       }
     };
+    
     return (
       <div className="Locale">
         <div className="languageRadio">

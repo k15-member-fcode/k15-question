@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import firebase from "firebase";
 import { Form, Radio, Input, Button, Icon } from "antd";
 import logo from "../utils/logo.jpg";
@@ -112,24 +112,24 @@ const tailFormItemLayout = {
 };
 
 function QuestionForm(props) {
-    const [language, setLanguage] = useState(props.language);
+    let language = props.language;
     const isError = useRef(false);
     const isSubmit = useRef(false);
     const isFirstRun = useRef(true);
+
     useEffect(() => {
       if (isFirstRun.current) {
         isFirstRun.current = false;
-        return;
+      return;
       }
       else {
-          setLanguage(language => props.language);
-          console.log("changed");
-          if (isError.current) {
-            console.log("callback");
-            document.getElementsByTagName("button")[0].click();
-          }
+        if (isError.current) {
+          document.getElementsByTagName("button")[0].click();
+          console.log("callback");
+        }
       }
-    }, [props.language]);
+    }, [language]);
+
     const { getFieldDecorator } = props.form;
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -145,21 +145,14 @@ function QuestionForm(props) {
         }
       });
     };
+
     const handleStudentId = (rule, value, callback) => {
       let studentID = value;
       if (isSubmit.current) {
         if ((!/^[A-Za-z]{2}(0[1-9]|1[0-5])[0-1]{1}[0-9]{3}$/.test(studentID) || studentID.length !== 8)) {
-          if (studentID !== undefined){
-            if (studentID.length !== 0) {
-              callback(language.formList[1].errMessage[1])
-            }
-            else {
-              callback();
-            }
+          if (studentID !== undefined) {
+            studentID.length !== 0 ? callback(language.formList[1].errMessage[1]) : callback();
           }
-        }
-        else {
-          isSubmit.current = false;
         }
       }
       callback();
