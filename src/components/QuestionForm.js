@@ -5,15 +5,9 @@ import logo from "../utils/logo.jpg";
 import { firebaseConfig } from "../utils/configFirebase";
 import { nameValidation, studentIdValidation } from "../utils/configValidation";
 import { createNotification } from "./Common/Notification";
-
+import { toTitleCase } from "../utils/toTitleCase";
 firebase.initializeApp(firebaseConfig);
 const dataQuestion = firebase.database();
-
-const toTitleCase = (str) => {
-  return str.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
-}
 
 const processData = (submitData) => {
   const fullname = toTitleCase(submitData.fullname);
@@ -160,6 +154,7 @@ function QuestionForm(props) {
     };
 
     const majorList = ['SE', 'IA', 'IoT', 'AI'];
+
     return (
       <div className="Form">
         <Form {...formItemLayout} onSubmit={handleSubmit}>
@@ -241,7 +236,7 @@ function QuestionForm(props) {
               <Radio.Group buttonStyle="outline">
               {majorList.map((major, index) => {
                 return(
-                  <Radio.Button value={major}>{major}</Radio.Button>
+                  <Radio.Button key={index} value={major}>{major}</Radio.Button>
                 )
               })}
               </Radio.Group>
