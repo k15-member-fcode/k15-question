@@ -5,8 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-   height: 100%;
-   overflow: hidden;
 }
 
 code {
@@ -15,11 +13,10 @@ code {
 }
 
 .App {
-  min-height: 100%;
+  overflow: auto;
 }
-
 .Form {
-  min-height: 78vh;
+  min-height: 80vh;
   padding-top: 15px;
 }
 
@@ -67,7 +64,6 @@ textarea {
 button {
   margin-left: 40%;
   width: 20%;
-  margin-bottom: 20px;
 }
 
 .Footer {
@@ -79,6 +75,7 @@ button {
   text-align: center;
 }
 
+/* Responsive */
 @media only screen and (max-width: 1024px) {
   form {
     width: 80%;
