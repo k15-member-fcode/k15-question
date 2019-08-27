@@ -4,12 +4,12 @@ import "firebase/database";
 import { Form, Radio, Input, Button, Icon } from "antd";
 import logo from "../utils/logo.jpg";
 import { firebaseConfig } from "../utils/configFirebase";
-import { nameValidation, studentIdValidation } from "../utils/configValidation";
 import { createNotification } from "./Common/Notification";
-import { toTitleCase } from "../utils/toTitleCase";
+import { toTitleCase, studentIdValidation, nameValidation } from "../utils/config";
 
 firebase.initializeApp(firebaseConfig);
 const dataQuestion = firebase.database();
+const majorList = ["SE", "IA", "IoT", "AI"];
 
 const processData = submitData => {
   const fullname = toTitleCase(submitData.fullname);
@@ -108,7 +108,7 @@ const tailFormItemLayout = {
   }
 };
 
-function QuestionForm(props) {
+const QuestionForm = (props) => {
   let language = props.language;
   const isError = useRef(false);
   const isSubmit = useRef(false);
@@ -154,12 +154,9 @@ function QuestionForm(props) {
     callback();
   };
 
-  const majorList = ["SE", "IA", "IoT", "AI"];
-
   return (
-    <div className="Form">
-      <Form {...formItemLayout} onSubmit={handleSubmit}>
-        <Form.Item {...tailFormItemLayout}>
+    <Form {...formItemLayout} onSubmit={handleSubmit} className="Form">
+      <Form.Item {...tailFormItemLayout}>
         <div className="formHeader">
           <img alt="logo-fcode" className="logo" src={logo} />
           <div className="titleText">
@@ -176,85 +173,84 @@ function QuestionForm(props) {
             </ul>
           </div>
         </div>
-        </Form.Item>
-        <Form.Item label={language.formList[0].label}>
-          {getFieldDecorator("fullname", {
-            rules: [
-              {
-                required: true,
-                message: language.formList[0].errMessage[0]
-              },
-              {
-                pattern: nameValidation,
-                message: language.formList[0].errMessage[1]
-              }
-            ]
-          })(
-            <Input
-              size="large"
-              placeholder={language.formList[0].placeholder}
-              autoComplete="off"
-            />
-          )}
-        </Form.Item>
-        <Form.Item label={language.formList[1].label}>
-          {getFieldDecorator("studentID", {
-            rules: [
-              {
-                required: true,
-                message: language.formList[1].errMessage[0]
-              },
-              {
-                validator: handleStudentId
-              }
-            ]
-          })(
-            <Input
-              prefix="SE"
-              size="large"
-              placeholder={language.formList[1].placeholder}
-              autoComplete="off"
-            />
-          )}
-        </Form.Item>
-        <Form.Item label={language.formList[2].label}>
-          {getFieldDecorator("question", {
-            rules: [
-              {
-                required: true,
-                message: language.formList[2].errMessage
-              }
-            ]
-          })(<TextArea rows={4} />)}
-        </Form.Item>
-        <Form.Item label={language.formList[3].label}>
-          {getFieldDecorator("major", {
-            rules: [
-              {
-                required: true,
-                message: language.formList[3].errMessage
-              }
-            ],
-            initialValue: "SE"
-          })(
-            <Radio.Group buttonStyle="outline">
-              {majorList.map((major, index) => {
-                return (
-                  <Radio.Button key={index} value={major}>
-                    {major}
-                  </Radio.Button>
-                );
-              })}
-            </Radio.Group>
-          )}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            {language.submitBtn}
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+      </Form.Item>
+      <Form.Item label={language.formList[0].label}>
+        {getFieldDecorator("fullname", {
+          rules: [
+            {
+              required: true,
+              message: language.formList[0].errMessage[0]
+            },
+            {
+              pattern: nameValidation,
+              message: language.formList[0].errMessage[1]
+            }
+          ]
+        })(
+          <Input
+            size="large"
+            placeholder={language.formList[0].placeholder}
+            autoComplete="off"
+          />
+        )}
+      </Form.Item>
+      <Form.Item label={language.formList[1].label}>
+        {getFieldDecorator("studentID", {
+          rules: [
+            {
+              required: true,
+              message: language.formList[1].errMessage[0]
+            },
+            {
+              validator: handleStudentId
+            }
+          ]
+        })(
+          <Input
+            prefix="SE"
+            size="large"
+            placeholder={language.formList[1].placeholder}
+            autoComplete="off"
+          />
+        )}
+      </Form.Item>
+      <Form.Item label={language.formList[2].label}>
+        {getFieldDecorator("question", {
+          rules: [
+            {
+              required: true,
+              message: language.formList[2].errMessage
+            }
+          ]
+        })(<TextArea rows={4} />)}
+      </Form.Item>
+      <Form.Item label={language.formList[3].label}>
+        {getFieldDecorator("major", {
+          rules: [
+            {
+              required: true,
+              message: language.formList[3].errMessage
+            }
+          ],
+          initialValue: "SE"
+        })(
+          <Radio.Group buttonStyle="outline">
+            {majorList.map((major, index) => {
+              return (
+                <Radio.Button key={index} value={major}>
+                  {major}
+                </Radio.Button>
+              );
+            })}
+          </Radio.Group>
+        )}
+      </Form.Item>
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          {language.submitBtn}
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
 

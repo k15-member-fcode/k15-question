@@ -1,6 +1,5 @@
 import React from "react";
 import { notification, Icon } from "antd";
-import { getStyleNotification } from "../Locale";
 
 export const createNotification = (notiContent, durationSet) => {
   notification.open({
@@ -9,4 +8,10 @@ export const createNotification = (notiContent, durationSet) => {
     duration: durationSet,
     icon: <Icon type="check-circle" style={getStyleNotification()} />
   });
+};
+
+const getStyleNotification = () => {
+  return {
+    color: "#5cb85c"
+  };
 };

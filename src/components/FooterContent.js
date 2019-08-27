@@ -1,6 +1,6 @@
 import React from "react";
 
-function FooterContent(props) {
+const FooterContent = (props) => {
   return (
     <div className="Footer">
       <span> {props.footerContent[0]} </span> <br />
