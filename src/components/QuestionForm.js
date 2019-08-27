@@ -160,6 +160,7 @@ function QuestionForm(props) {
     <div className="Form">
       <Form {...formItemLayout} onSubmit={handleSubmit}>
         <Form.Item {...tailFormItemLayout}>
+        <div className="formHeader">
           <img alt="logo-fcode" className="logo" src={logo} />
           <div className="titleText">
             <h1>{language.titleForm}</h1>
@@ -174,6 +175,7 @@ function QuestionForm(props) {
               })}
             </ul>
           </div>
+        </div>
         </Form.Item>
         <Form.Item label={language.formList[0].label}>
           {getFieldDecorator("fullname", {
