@@ -61,7 +61,7 @@ textarea {
   resize: none;
 }
 
-button {
+form button {
   margin-left: 40%;
   width: 20%;
 }
