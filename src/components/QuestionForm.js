@@ -71,6 +71,12 @@ const writeQuestionToFirebase = (data, language) => {
           totalOfUser: ++totalOfUser
         });
       });
+      let totalMajorName = "totalOf" + setMajor;
+      ref.child(totalMajorName).once("value", data => {
+        let totalMajor = {};
+        totalMajor[totalMajorName] = data.val() + 1;
+        ref.update(totalMajor);
+      });
     }
     cQuesRef.once("value", data => {
       let totalOfQuestion = data.val();
