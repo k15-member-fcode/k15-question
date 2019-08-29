@@ -14,7 +14,7 @@ const majorList = ["SE", "IA", "IoT", "AI"];
 const processData = submitData => {
   const fullname = toTitleCase(submitData.fullname);
   const studentID = "SE" + submitData.studentID;
-  const question = submitData.question;
+  const question = " - " + submitData.question;
   const major = submitData.major;
   let date = new Date();
   const day = String(date.getDate()).padStart(2, "0");
@@ -47,20 +47,19 @@ const writeQuestionToFirebase = (data, language) => {
     let curUserRef = ref.child(setStudentID);
     if (data.val() != null) {
       let totalTimes = data.val().totalTimes + 1;
+      let question = data.val().question + "; " + totalTimes + setQuestion;
       curUserRef.update({
+        question: question,
         timeUpdate: setDate,
         totalTimes: totalTimes
       });
-      let newQuestion = {};
-      newQuestion[totalTimes] = setQuestion;
-      curUserRef.child("question").update(newQuestion);
       createNotification(language.notiUpdate, 0);
     } else {
       curUserRef.set({
         id: setStudentID,
         name: setName,
         major: setMajor,
-        question: { 1: setQuestion },
+        question: "1" + setQuestion,
         timeCreate: setDate,
         timeUpdate: setDate,
         totalTimes: 1
