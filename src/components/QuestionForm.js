@@ -7,7 +7,15 @@ import { firebaseConfig } from "../utils/configFirebase";
 import { createNotification } from "./Common/Notification";
 import { toTitleCase, studentIdValidation, nameValidation } from "../utils/config";
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp({
+  apiKey: firebaseConfig.apiKey,
+  authDomain: firebaseConfig.authDomain,
+  databaseURL: firebaseConfig.databaseURL,
+  projectId: firebaseConfig.projectId,
+  storageBucket: firebaseConfig.storageBucket,
+  messagingSenderId: firebaseConfig.messagingSenderId
+});
+
 const dataQuestion = firebase.database();
 const majorList = ["SE", "IA", "IoT", "AI"];
 
