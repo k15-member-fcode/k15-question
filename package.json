@@ -7,10 +7,7 @@
     "firebase": "^6.4.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-<<<<<<< HEAD
     "react-firebaseui": "^4.0.0",
-=======
->>>>>>> 9a3a16a47ec531767d0a04f17ef1127b4a81a919
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-table": "^6.10.0",
