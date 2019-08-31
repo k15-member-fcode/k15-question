@@ -14,6 +14,7 @@ const AdminPage = () => {
   const [isAuth, setAuth] = useState(false);
 
   useEffect(() => {
+    document.title = "K15 Questions Management";
     firebase.auth().onAuthStateChanged(user => {
       setLogin(!!user);
     });
@@ -37,7 +38,7 @@ const AdminPage = () => {
     signInFlow: "popup",
     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
-      signInSuccessWithAuthResult : () => false
+      signInSuccessWithAuthResult: () => false
     }
   };
 
