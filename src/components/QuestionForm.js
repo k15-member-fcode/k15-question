@@ -12,7 +12,7 @@ const dataQuestion = firebase.database();
 const majorList = ["SE", "IA", "IoT", "AI"];
 
 const processData = submitData => {
-  const fullname = submitData.fullname === null ? toTitleCase(submitData.fullname) : "No Name";
+  const fullname = submitData.fullname === undefined ? "No Name" : toTitleCase(submitData.fullname);
   const studentID = "SE" + submitData.studentID;
   const question = " - " + submitData.question;
   const major = submitData.major;
