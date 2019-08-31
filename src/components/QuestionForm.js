@@ -12,7 +12,7 @@ const dataQuestion = firebase.database();
 const majorList = ["SE", "IA", "IoT", "AI"];
 
 const processData = submitData => {
-  const fullname = toTitleCase(submitData.fullname);
+  const fullname = submitData.fullname === null ? toTitleCase(submitData.fullname) : "No Name";
   const studentID = "SE" + submitData.studentID;
   const question = " - " + submitData.question;
   const major = submitData.major;
@@ -182,10 +182,6 @@ const QuestionForm = (props) => {
       <Form.Item label={language.formList[0].label}>
         {getFieldDecorator("fullname", {
           rules: [
-            {
-              required: true,
-              message: language.formList[0].errMessage[0]
-            },
             {
               pattern: nameValidation,
               message: language.formList[0].errMessage[1]
