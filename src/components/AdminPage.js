@@ -9,10 +9,74 @@ import DataSheet from "./DataSheet";
 const questionDatabase = firebase.database();
 const adminRef = questionDatabase.ref("admin");
 
+const questionColumns = [
+  {
+    Header: "Student ID",
+    columns: [
+      {
+        Header: "Student ID",
+        id: "studentID",
+        accessor: d => d.id
+      }
+    ]
+  },
+  {
+    Header: "Fullname",
+    columns: [
+      {
+        Header: "Fullname",
+        id: "fullname",
+        accessor: d => d.name
+      }
+    ]
+  },
+  {
+    Header: "Major",
+    columns: [
+      {
+        Header: "Major",
+        id: "major",
+        accessor: d => d.major
+      }
+    ]
+  },
+  {
+    Header: "Question",
+    columns: [
+      {
+        Header: "Question",
+        id: "question",
+        accessor: d => d.question
+      }
+    ]
+  },
+  {
+    Header: "Created at",
+    columns: [
+      {
+        Header: "Created at",
+        id: "timeCreate",
+        accessor: d => d.timeCreate
+      }
+    ]
+  },
+  {
+    Header: "Updated at",
+    columns: [
+      {
+        Header: "Updated at",
+        id: "timeUpdate",
+        accessor: d => d.timeUpdate
+      }
+    ]
+  }
+];
+
 const AdminPage = () => {
   const [isLogin, setLogin] = useState(false);
   const [isAuth, setAuth] = useState(false);
 
+<<<<<<< HEAD
   useEffect(() => {
     document.title = "K15 Questions Management";
     firebase.auth().onAuthStateChanged(user => {
@@ -31,6 +95,15 @@ const AdminPage = () => {
       } else {
         setAuth(false);
       }
+=======
+  const getQuestion = () => {
+    let question = [];
+    questionData.ref("k15-questions").once("value", snapshot => {
+      snapshot.forEach(snap => {
+        question.push(snap.val());
+      });
+      setQuestion(question);
+>>>>>>> 9a3a16a47ec531767d0a04f17ef1127b4a81a919
     });
   };
 
@@ -46,6 +119,7 @@ const AdminPage = () => {
     <div className="AdminPage" style={{ textAlign: "center" }}>
       {isLogin ? (
         <div>
+<<<<<<< HEAD
           <h3>Welcome {firebase.auth().currentUser.displayName}</h3>
           <Button type="danger" onClick={() => firebase.auth().signOut()}>
             Sign out
@@ -62,6 +136,18 @@ const AdminPage = () => {
           <StyledFirebaseAuth
             uiConfig={uiConfig}
             firebaseAuth={firebase.auth()}
+=======
+          <h1>K15 Questions Datasheet</h1>
+          <Button type="dashed" onClick={exportFile}>Export to Excel</Button>
+          <ReactTable
+            style={{
+              marginLeft: "-50%",
+              marginRight: "-50%",
+              marginTop: "10px"
+            }}
+            data={questions}
+            columns={questionColumns}
+>>>>>>> 9a3a16a47ec531767d0a04f17ef1127b4a81a919
           />
         </div>
       )}
