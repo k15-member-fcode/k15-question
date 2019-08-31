@@ -1,194 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
 import firebase from "firebase/app";
 import "firebase/database";
-import XLSX from "xlsx";
+import "firebase/auth";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import DataSheet from "./DataSheet";
 
 const questionDatabase = firebase.database();
-const questionRef = questionDatabase.ref("k15-questions");
-
-const wscols = [
-  { wch: 4 },
-  { wch: 10 },
-  { wch: 30 },
-  { wch: 6 },
-  { wch: 50 },
-  { wch: 20 },
-  { wch: 20 }
-];
-
-const style = {
-  marginTop: "10px",
-  display: "flex",
-  justifyContent: "center",
-  textAlign: "center"
-};
+const adminRef = questionDatabase.ref("admin");
 
 const AdminPage = () => {
-  const [questions, setQuestion] = useState([]);
-  const [totalOfSE, setTotalOfSE] = useState(0);
-  const [totalOfIA, setTotalOfIA] = useState(0);
-  const [totalOfAI, setTotalOfAI] = useState(0);
-  const [totalOfIoT, setTotalOfIoT] = useState(0);
+  const [isLogin, setLogin] = useState(false);
+  const [isAuth, setAuth] = useState(false);
 
   useEffect(() => {
-    getQuestion();
-  }, [questions]);
+    firebase.auth().onAuthStateChanged(user => {
+      setLogin(!!user);
+    });
+    if (isLogin) {
+      checkAuth();
+    }
+  });
 
-  const getQuestion = () => {
-    let question = [];
-    questionRef.once("value", snapshot => {
-      snapshot.forEach(snap => {
-        if (typeof snap.val() === "object") {
-          question.push(snap.val());
-        }
-      });
-      setQuestion(question);
-    });
-    questionRef.child("totalOfSE").once("value", snapshot => {
-      setTotalOfSE(snapshot.val());
-    });
-    questionRef.child("totalOfIA").once("value", snapshot => {
-      setTotalOfIA(snapshot.val());
-    });
-    questionRef.child("totalOfIoT").once("value", snapshot => {
-      setTotalOfIoT(snapshot.val());
-    });
-    questionRef.child("totalOfAI").once("value", snapshot => {
-      setTotalOfAI(snapshot.val());
+  const checkAuth = () => {
+    let authEmail = firebase.auth().currentUser.email.replace("@gmail.com", "");
+    adminRef.child(authEmail).once("value", data => {
+      if (data.val()) {
+        setAuth(true);
+      } else {
+        setAuth(false);
+      }
     });
   };
 
-  const exportFile = () => {
-    let counter = 0;
-    let questionData = [
-      [
-        "No.",
-        "Student ID",
-        "Fullname",
-        "Major",
-        "Question",
-        "Created at",
-        "Updated at"
-      ]
-    ];
-    questions.forEach(question => {
-      counter++;
-      let questionArr = [
-        counter,
-        question.id,
-        question.name,
-        question.major,
-        question.question,
-        question.timeCreate,
-        question.timeUpdate
-      ];
-      questionData.push(questionArr);
-    });
-    questionData.push(["Total of SE", "", "", totalOfSE]);
-    questionData.push(["Total of IA", "", "", totalOfIA]);
-    questionData.push(["Total of IoT", "", "", totalOfIoT]);
-    questionData.push(["Total of AI", "", "", totalOfAI]);
-    questionData.push(["Total of all users", "", "", counter]);
-    const wb = XLSX.utils.book_new();
-    const wsAll = XLSX.utils.aoa_to_sheet(questionData);
-    XLSX.utils.book_append_sheet(wb, wsAll, "All Questions");
-    wsAll["!cols"] = wscols;
-    let mergeRow = [];
-    for (let i = 1; i <= 5; i++) {
-      let cRow = i + counter + 1;
-      let cRange = "A" + cRow + ":C" + cRow;
-      mergeRow[i - 1] = XLSX.utils.decode_range(cRange);
+  const uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    callbacks: {
+      signInSuccessWithAuthResult : () => false
     }
-    wsAll["!merges"] = mergeRow;
-    XLSX.writeFile(wb, "k15-questions.xlsx");
   };
-
-  const questionColumns = [
-    {
-      Header: "Student ID",
-      columns: [
-        {
-          Header: "Student ID",
-          id: "studentID",
-          accessor: d => d.id
-        }
-      ]
-    },
-    {
-      Header: "Fullname",
-      columns: [
-        {
-          Header: "Fullname",
-          id: "fullname",
-          accessor: d => d.name
-        }
-      ]
-    },
-    {
-      Header: "Major",
-      columns: [
-        {
-          Header: "Major",
-          id: "major",
-          accessor: d => d.major
-        }
-      ]
-    },
-    {
-      Header: "Question",
-      columns: [
-        {
-          Header: "Question",
-          id: "question",
-          accessor: d => d.question
-        }
-      ]
-    },
-    {
-      Header: "Created at",
-      columns: [
-        {
-          Header: "Created at",
-          id: "timeCreate",
-          accessor: d => d.timeCreate
-        }
-      ]
-    },
-    {
-      Header: "Updated at",
-      columns: [
-        {
-          Header: "Updated at",
-          id: "timeUpdate",
-          accessor: d => d.timeUpdate
-        }
-      ]
-    }
-  ];
 
   return (
-    <div className="AdminPage">
-      <div style={style}>
+    <div className="AdminPage" style={{ textAlign: "center" }}>
+      {isLogin ? (
         <div>
-          <h1>K15 Questions Datasheet</h1>
-          <Button type="dashed" onClick={exportFile}>
-            Export to Excel
+          <h3>Welcome {firebase.auth().currentUser.displayName}</h3>
+          <Button type="danger" onClick={() => firebase.auth().signOut()}>
+            Sign out
           </Button>
-          <ReactTable
-            style={{
-              marginLeft: "-50%",
-              marginRight: "-50%",
-              marginTop: "20px"
-            }}
-            data={questions}
-            columns={questionColumns}
-            defaultPageSize={10}
+          {isAuth ? (
+            <DataSheet />
+          ) : (
+            <div>Sorry! You can not access this page</div>
+          )}
+        </div>
+      ) : (
+        <div style={{ marginTop: "20%" }}>
+          <h1>Please login to check your authority!</h1>
+          <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
           />
         </div>
-      </div>
+      )}
     </div>
   );
 };
