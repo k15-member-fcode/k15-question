@@ -2,10 +2,11 @@ import React, { useRef, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/database";
 import { Form, Radio, Input, Button, Icon } from "antd";
-import logo from "../utils/logo.jpg";
+import logo from "../utils/logo.png";
 import { firebaseConfig } from "../utils/configFirebase";
 import { createNotification } from "./Common/Notification";
 import { toTitleCase, studentIdValidation, nameValidation } from "../utils/config";
+import { backupData } from "../utils/backup";
 
 firebase.initializeApp({
   apiKey: firebaseConfig.apiKey,
@@ -17,6 +18,7 @@ firebase.initializeApp({
 });
 
 const dataQuestion = firebase.database();
+
 const majorList = ["SE", "IA", "IoT", "AI"];
 
 const processData = submitData => {
@@ -93,6 +95,7 @@ const writeQuestionToFirebase = (data, language) => {
       });
     });
   });
+  backupData(dataQuestion, setStudentID);
 };
 
 const { TextArea } = Input;
