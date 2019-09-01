@@ -12,9 +12,6 @@ code {
     monospace;
 }
 
-.App {
-  overflow: auto;
-}
 .Form {
   min-height: 80vh;
   padding-top: 15px;
